@@ -12,6 +12,7 @@ class HttpAdapter {
   }
 
   private static getAxiosInstance(useToken: boolean) {
+    
     return axiosApi;
   }
 

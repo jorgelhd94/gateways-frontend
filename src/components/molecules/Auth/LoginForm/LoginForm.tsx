@@ -9,6 +9,8 @@ import {
   successInputClass,
 } from "../../../../utils/inputStyle";
 import AuthButton from "../../../atoms/buttons/AuthButton/AuthButton";
+import HttpAdapter from "../../../../utils/HttpAdapter";
+import { redirect } from "react-router-dom";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,11 +18,30 @@ const LoginForm = () => {
 
   const schema = Yup.object({
     email: Yup.string().required(requierdMsg).email(),
-    password: Yup.string().required(requierdMsg).min(6).max(32),
+    password: Yup.string().required(requierdMsg).min(6).max(10),
   });
 
   const getError = (inputName: string) => {
     return <ErrorMessage name={inputName} />;
+  };
+
+  const singIn = async (email: string, password: string) => {
+    const httpAdapter = HttpAdapter.getInstance();
+    await httpAdapter
+      .post("auth/login", { email, password })
+      .then(() => {
+        // Signed in
+        toast.success("Welcome!!");
+        redirect("/");
+        // ...
+      })
+      .catch((error) => {
+        const errorMessage =
+          typeof error.response.data.message === "string"
+            ? error.response.data.message
+            : error.response.data.message[0];
+        toast.error(errorMessage);
+      });
   };
 
   return (
@@ -32,20 +53,9 @@ const LoginForm = () => {
           setSubmitting(false);
           setIsLoading(true);
 
-          //   await signInWithEmailAndPassword(auth, values.email, values.password)
-          //     .then(() => {
-          //       // Signed in
-          //       toast.success("Welcome!!");
-          //       router.push("/");
-          //       // ...
-          //     })
-          //     .catch((error) => {
-          //       const errorMessage = error.message;
-          //       toast.error(errorMessage);
-          //     });
+          await singIn(values.email, values.password);
 
           setIsLoading(false);
-          // eslint-disable-next-line prettier/prettier
         }}
       >
         {({ errors }) => (
