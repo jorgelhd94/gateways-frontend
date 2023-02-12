@@ -7,9 +7,9 @@ const GithubLink = () => {
     <a
       href="https://github.com/jorgelhd94"
       target="_blank"
-      className="flex px-2 py-1 items-center rounded-full text-gray-400 hover:text-gray-700 bg-white shadow text-md"
+      className="flex p-2 items-center rounded-full text-gray-400 hover:text-black hover:shadow-md bg-white shadow text-md"
     >
-      <FontAwesomeIcon icon={faGithub} className="w-6 h-6"></FontAwesomeIcon>
+      <FontAwesomeIcon icon={faGithub} className="w-6 h-6"/>
     </a>
   );
 };

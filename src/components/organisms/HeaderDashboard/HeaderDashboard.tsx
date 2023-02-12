@@ -1,19 +1,18 @@
 import React from "react";
 import ButtonBurger from "../../atoms/buttons/ButtonBurger/ButtonBurger";
 import GithubLink from "../../atoms/Links/GithubLink/GithubLink";
+import ProfileButton from "../../atoms/buttons/ProfileButton/ProfileButton";
 
 const HeaderDashboard = () => {
   return (
     <header className="w-full h-16 z-40 flex items-center justify-between">
-      <ButtonBurger/>
+      <ButtonBurger />
 
       <div className="relative z-20 flex flex-col justify-end h-full px-3 md:w-full">
         <div className="relative p-1 flex items-center w-full space-x-4 justify-end">
+          <GithubLink />
 
-          <GithubLink/>
-
-          <span className="w-1 h-8 rounded-lg bg-gray-200"></span>
-
+          <ProfileButton />
           {/* Profile */}
           {/* <button
             className="flex items-center text-gray-500 dark:text-white text-md"
