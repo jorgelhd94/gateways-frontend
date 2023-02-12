@@ -1,7 +1,8 @@
 import React from "react";
 import ButtonBurger from "../../atoms/buttons/ButtonBurger/ButtonBurger";
 import GithubLink from "../../atoms/Links/GithubLink/GithubLink";
-import ProfileButton from "../../atoms/buttons/ProfileButton/ProfileButton";
+import ProfileMenu from "../../molecules/Profile/ProfileMenu/ProfileMenu";
+import ProfileComponent from "../../molecules/Profile/ProfileComponent/ProfileComponent";
 
 const HeaderDashboard = () => {
   return (
@@ -12,7 +13,7 @@ const HeaderDashboard = () => {
         <div className="relative p-1 flex items-center w-full space-x-4 justify-end">
           <GithubLink />
 
-          <ProfileButton />
+          <ProfileComponent />
           {/* Profile */}
           {/* <button
             className="flex items-center text-gray-500 dark:text-white text-md"
@@ -40,25 +41,7 @@ const HeaderDashboard = () => {
 
           <div id="options-menu" className="absolute">
             {openDropdown && (
-              <div className="origin-top-right absolute top-4 right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
-                <div
-                  className="py-1 "
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="options-menu"
-                >
-                  <a
-                    href="#"
-                    onClick={logout}
-                    className="block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
-                    role="menuitem"
-                  >
-                    <span className="flex flex-col">
-                      <span>Logout</span>
-                    </span>
-                  </a>
-                </div>
-              </div>
+          
             )}
           </div>
            */}

@@ -1,9 +1,16 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import UserImg from "../../../../assets/user.svg";
 
-const ProfileButton = () => {
+type ProfileButtonProps = {
+  onClick: MouseEventHandler;
+};
+
+const ProfileButton = (props: ProfileButtonProps) => {
   return (
-    <button className="flex items-center bg-white rounded-full hover:shadow-md p-2 text-md shadow">
+    <button
+      onClick={props.onClick}
+      className="flex items-center bg-white rounded-full hover:shadow-md p-2 text-md shadow"
+    >
       <img
         alt="profile"
         src={UserImg}
