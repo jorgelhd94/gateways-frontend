@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import WelcomeImg from "../assets/bg-login.jpg";
+import LoginForm from "../components/molecules/Auth/LoginForm/LoginForm";
 
 const AuthPage = () => {
   const [showLogin, setShowLogin] = useState(true);
@@ -31,7 +32,8 @@ const AuthPage = () => {
             </p>
           </div>
 
-          {/* {isLogin ? <LoginForm /> : <RegisterForm toogleLogin={toogleLogin} />} */}
+          <div className="py-12">{showLogin && <LoginForm />}</div>
+          {/* <RegisterForm toogleLogin={toogleLogin} /> */}
 
           <p className="text-sm my-12 text-center">
             Created by{" "}

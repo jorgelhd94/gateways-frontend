@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import ErrorMessage from "../../Messages/ErrorMessage/ErrorMessage";
@@ -6,7 +6,7 @@ import ErrorMessage from "../../Messages/ErrorMessage/ErrorMessage";
 type IconInputProps = {
   children: ReactNode;
   icon: IconDefinition;
-  error: string;
+  error: ReactElement;
 };
 
 const IconInput = (props: IconInputProps) => {
