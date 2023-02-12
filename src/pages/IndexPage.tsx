@@ -2,7 +2,7 @@ import LoadingScreen from "../components/atoms/preloaders/LoadingScreen/LoadingS
 import DashboardLayout from "../components/templates/DashboardLayout/DashboardLayout";
 
 const IndexPage = () => {
-  return <DashboardLayout>Index</DashboardLayout>;
+  return <DashboardLayout><div></div></DashboardLayout>;
 };
 
 export default IndexPage;
