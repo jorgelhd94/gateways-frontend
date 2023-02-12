@@ -1,8 +1,8 @@
-import React from 'react'
+import LoadingScreen from '../components/atoms/preloaders/LoadingScreen/LoadingScreen'
 
 const IndexPage = () => {
   return (
-    <div>IndexPage</div>
+    <div><LoadingScreen/></div>
   )
 }
 
