@@ -1,7 +1,13 @@
 import { ReactNode } from "react";
+import { ToastContainer } from "react-toastify";
 
 const MainLayout = (children: ReactNode) => {
-  return <div>{children}</div>;
+  return (
+    <>
+      {children}
+      <ToastContainer />
+    </>
+  );
 };
 
 export default MainLayout;
