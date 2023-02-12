@@ -33,7 +33,7 @@ const AuthPage = () => {
             </p>
           </div>
 
-          <div className="py-12">
+          <div className="py-8">
             {showLogin ? <LoginForm /> : <RegisterForm />}
           </div>
 
