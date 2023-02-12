@@ -1,10 +1,15 @@
 import { ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
 
-const MainLayout = (children: ReactNode) => {
+
+type MainLayoutProps = {
+  children: ReactNode;
+};
+
+const MainLayout = (props: MainLayoutProps) => {
   return (
     <>
-      {children}
+      {props.children}
       <ToastContainer />
     </>
   );
