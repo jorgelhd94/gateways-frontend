@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/free-regular-svg-icons";
-import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
 type NavSidebarLinkProps = {
@@ -23,6 +21,7 @@ const NavSidebarLink = (props: NavSidebarLinkProps) => {
   const textClass = "text-sm font-normal";
 
   const [isActive, setIsActive] = useState(false);
+
   return (
     <NavLink
       to={props.href}
