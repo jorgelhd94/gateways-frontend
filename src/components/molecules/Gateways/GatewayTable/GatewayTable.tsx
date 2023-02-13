@@ -1,7 +1,7 @@
 import React from "react";
 import EmptyList from "../../../atoms/Messages/EmptyList/EmptyList";
 import FetchError from "../../../atoms/Messages/FetchError/FetchError";
-import TableSkeleton from "../../../atoms/TableSkeleton/TableSkeleton";
+import TableSkeleton from "../../../atoms/Table/TableSkeleton/TableSkeleton";
 
 const GatewayTable = () => {
   return (
