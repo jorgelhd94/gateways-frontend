@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -10,9 +10,10 @@ import {
 } from "../../../../utils/inputStyle";
 import AuthButton from "../../../atoms/buttons/AuthButton/AuthButton";
 import HttpAdapter from "../../../../utils/HttpAdapter";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false);
   const requierdMsg = "This is a required field";
 
@@ -32,7 +33,7 @@ const LoginForm = () => {
       .then(() => {
         // Signed in
         toast.success("Welcome!!");
-        redirect("/");
+        navigate("/");
         // ...
       })
       .catch((error) => {

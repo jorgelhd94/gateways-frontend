@@ -23,7 +23,7 @@ const RegisterForm = () => {
   const schema = Yup.object({
     name: Yup.string().required(requierdMsg).min(3).max(50),
     email: Yup.string().required(requierdMsg).email(),
-    password: Yup.string().required(requierdMsg).min(6).max(32),
+    password: Yup.string().required(requierdMsg).min(6).max(10),
     confirmPassword: Yup.string()
       .required(requierdMsg)
       .oneOf([Yup.ref("password"), ""], "Passwords must match"),
