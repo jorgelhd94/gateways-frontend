@@ -1,4 +1,4 @@
-import { axiosApi } from "./axios/axiosInstance";
+import axios from "axios";
 
 class HttpAdapter {
   private static instance: HttpAdapter;
@@ -11,9 +11,15 @@ class HttpAdapter {
     return HttpAdapter.instance;
   }
 
-  private static getAxiosInstance(useToken: boolean) {
-    
-    return axiosApi;
+  private static getAxiosInstance(token?: string) {
+    const baseURL = import.meta.env.VITE_SERVER_URL;
+    if (token)
+      return axios.create({
+        baseURL,
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+    return axios.create({ baseURL });
   }
 
   public sendRequest(
@@ -21,26 +27,26 @@ class HttpAdapter {
     url: string,
     data?: any,
     config?: any,
-    useToken?: boolean
+    token?: string
   ): Promise<any> {
-    const axiosInstance = HttpAdapter.getAxiosInstance(useToken || false);
+    const axiosInstance = HttpAdapter.getAxiosInstance(token);
     return axiosInstance[method](`${url}`, data, config);
   }
 
-  public get(url: string, config?: any, useToken?: boolean) {
-    return this.sendRequest("get", url, undefined, config, useToken);
+  public get(url: string, config?: any, token?: string) {
+    return this.sendRequest("get", url, undefined, config, token);
   }
 
-  public post(url: string, data?: any, config?: any, useToken?: boolean) {
-    return this.sendRequest("post", url, data, config, useToken);
+  public post(url: string, data?: any, config?: any, token?: string) {
+    return this.sendRequest("post", url, data, config, token);
   }
 
-  public put(url: string, data?: any, config?: any, useToken?: boolean) {
-    return this.sendRequest("put", url, data, config, useToken);
+  public put(url: string, data?: any, config?: any, token?: string) {
+    return this.sendRequest("put", url, data, config, token);
   }
 
-  public delete(url: string, config?: any, useToken?: boolean) {
-    return this.sendRequest("delete", url, undefined, config, useToken);
+  public delete(url: string, config?: any, token?: string) {
+    return this.sendRequest("delete", url, undefined, config, token);
   }
 }
 
