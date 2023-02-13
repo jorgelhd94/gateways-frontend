@@ -13,9 +13,16 @@ import HttpAdapter from "../../../../utils/HttpAdapter";
 import { useNavigate } from "react-router-dom";
 import { notify } from "../../../../utils/notifications/notify";
 import { getAxiosError } from "../../../../utils/axios/getAxiosError";
+import { useDispatch } from "react-redux";
+import {
+  login,
+} from "../../../../store/reducers/user.reducer";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+
   const [isLoading, setIsLoading] = useState(false);
   const requierdMsg = "This is a required field";
 
@@ -32,16 +39,20 @@ const LoginForm = () => {
     const httpAdapter = HttpAdapter.getInstance();
     await httpAdapter
       .post("auth/login", { email, password })
-      .then(() => {
-        // Signed in
+      .then((response) => {
         notify("Welcome!!", "success");
+        const payload = {
+          user: response.data.user,
+          token: response.data.token,
+        };
+        dispatch(login(payload));
         navigate("/");
-        // ...
       })
       .catch((error) => {
         const errorMessage = getAxiosError(error);
         notify(errorMessage, "error");
       });
+
   };
 
   return (

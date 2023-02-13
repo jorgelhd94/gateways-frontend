@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/free-regular-svg-icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useMatch } from "react-router-dom";
 
 type NavSidebarLinkProps = {
   name: string;
@@ -20,20 +20,21 @@ const NavSidebarLink = (props: NavSidebarLinkProps) => {
 
   const textClass = "text-sm font-normal";
 
-  const [isActive, setIsActive] = useState(false);
+  const [isLinkActive] = useState(Boolean(useMatch(props.href)));
 
   return (
     <NavLink
       to={props.href}
       className={({ isActive }) => {
-        setIsActive(isActive);
         return isActive ? activeClass : normalClass;
       }}
     >
       <span className="text-left">
         <FontAwesomeIcon icon={props.icon} />
       </span>
-      <span className={isActive ? textClass + " mx-2" : textClass + " mx-4"}>
+      <span
+        className={isLinkActive ? textClass + " mx-2" : textClass + " mx-4"}
+      >
         {props.name}
       </span>
     </NavLink>
