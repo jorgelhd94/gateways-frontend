@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -14,14 +14,21 @@ import {
   errorInputClass,
   successInputClass,
 } from "../../../../utils/inputStyle";
+import { notify } from "../../../../utils/notifications/notify";
+import { getAxiosError } from "../../../../utils/axios/getAxiosError";
+import HttpAdapter from "../../../../utils/HttpAdapter";
 
-const RegisterForm = () => {
+type RegisterFormProps = {
+  toggleLogin: Function;
+};
+
+const RegisterForm = (props: RegisterFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const requierdMsg = "This is a required field";
 
   const schema = Yup.object({
-    name: Yup.string().required(requierdMsg).min(3).max(50),
+    fullname: Yup.string().required(requierdMsg).min(3).max(50),
     email: Yup.string().required(requierdMsg).email(),
     password: Yup.string().required(requierdMsg).min(6).max(10),
     confirmPassword: Yup.string()
@@ -37,7 +44,7 @@ const RegisterForm = () => {
     <div className="mt-12">
       <Formik
         initialValues={{
-          name: "",
+          fullname: "",
           email: "",
           password: "",
           confirmPassword: "",
@@ -47,16 +54,19 @@ const RegisterForm = () => {
           setIsLoading(true);
           setSubmitting(false);
 
-          //   const createUser = httpsCallable(functions, "users-register");
-          //   await createUser({ ...values })
-          //     .then(() => {
-          //       toast.success("User was register succesfully!");
-          //       toogleLogin();
-          //     })
-          //     .catch((error) => {
-          //       const message = error.message;
-          //       toast.error(message);
-          //     });
+          const { confirmPassword, ...data } = values;
+
+          const httpAdapter = HttpAdapter.getInstance();
+          await httpAdapter
+            .post("auth/register", data)
+            .then(() => {
+              notify("User was register succesfully!", "success");
+              props.toggleLogin();
+            })
+            .catch((error) => {
+              const message = getAxiosError(error);
+              toast.error(message);
+            });
 
           setIsLoading(false);
           // eslint-disable-next-line prettier/prettier
@@ -66,9 +76,11 @@ const RegisterForm = () => {
           <Form>
             <IconInput icon={faUser} error={getError("name")}>
               <Field
-                name="name"
+                name="fullname"
                 type="text"
-                className={errors.name ? errorInputClass : successInputClass}
+                className={
+                  errors.fullname ? errorInputClass : successInputClass
+                }
                 placeholder="Your name"
               />
             </IconInput>
