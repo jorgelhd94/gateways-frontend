@@ -1,4 +1,4 @@
-import { axiosApi } from "./axiosInstance";
+import { axiosApi } from "./axios/axiosInstance";
 
 class HttpAdapter {
   private static instance: HttpAdapter;

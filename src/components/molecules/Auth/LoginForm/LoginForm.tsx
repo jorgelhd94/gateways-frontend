@@ -11,9 +11,11 @@ import {
 import AuthButton from "../../../atoms/buttons/AuthButton/AuthButton";
 import HttpAdapter from "../../../../utils/HttpAdapter";
 import { useNavigate } from "react-router-dom";
+import { notify } from "../../../../utils/notifications/notify";
+import { getAxiosError } from "../../../../utils/axios/getAxiosError";
 
 const LoginForm = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const requierdMsg = "This is a required field";
 
@@ -32,16 +34,13 @@ const LoginForm = () => {
       .post("auth/login", { email, password })
       .then(() => {
         // Signed in
-        toast.success("Welcome!!");
+        notify("Welcome!!", "success");
         navigate("/");
         // ...
       })
       .catch((error) => {
-        const errorMessage =
-          typeof error.response.data.message === "string"
-            ? error.response.data.message
-            : error.response.data.message[0];
-        toast.error(errorMessage);
+        const errorMessage = getAxiosError(error);
+        notify(errorMessage, "error");
       });
   };
 
