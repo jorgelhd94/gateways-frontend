@@ -2,9 +2,7 @@ import DashboardLayout from "../components/templates/DashboardLayout/DashboardLa
 
 const IndexPage = () => {
   return (
-    <DashboardLayout>
       <div>IndexPage</div>
-    </DashboardLayout>
   );
 };
 

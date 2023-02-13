@@ -1,8 +1,7 @@
 import React from 'react'
-import DashboardLayout from '../../components/templates/DashboardLayout/DashboardLayout';
 
 const GatewaysPage = () => {
-  return <DashboardLayout>GatewaysPage</DashboardLayout>;
+  return <div>GatewaysPage</div>;
 };
 
 export default GatewaysPage;
