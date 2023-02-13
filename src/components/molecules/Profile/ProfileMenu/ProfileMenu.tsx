@@ -1,10 +1,13 @@
-import React from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../../../store/reducers/user.reducer";
 
 const ProfileMenu = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const logout = () => {
+  const logoutUser = () => {
+    dispatch(logout());
     navigate("auth");
   };
 
@@ -17,7 +20,7 @@ const ProfileMenu = () => {
     >
       <ul>
         <li
-          onClick={logout}
+          onClick={logoutUser}
           className="w-full cursor-pointer px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900"
           role="menuitem"
         >

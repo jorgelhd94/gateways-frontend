@@ -1,26 +1,29 @@
 import { IUser } from "./../../interfaces/IUser";
-import { LOGIN_SUCCESS, LOGOUT } from "../actions/user.action";
 import { createSlice } from "@reduxjs/toolkit";
 
 type InitialState = {
   user: IUser | null;
-  token: string | null;
+  token: string;
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState: <InitialState>{
-    user: null,
-    token: null,
+    user: JSON.parse(localStorage.getItem("user") || "null"),
+    token: localStorage.getItem("user_token"),
   },
   reducers: {
     login: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
+      localStorage.setItem("user", JSON.stringify(state.user));
+      localStorage.setItem("user_token", state.token);
     },
     logout: (state) => {
       state.user = null;
-      state.token = null;
+      state.token = "";
+      localStorage.removeItem("user");
+      localStorage.removeItem("user_token");
     },
   },
 });
