@@ -24,6 +24,13 @@ type DeviceFormProps = {
   listGateways: IGateway[];
 };
 
+type InitialValues = {
+  uid: string;
+  vendor: string;
+  gateway: string;
+  online: boolean;
+};
+
 const DeviceForm = (props: DeviceFormProps) => {
   const getDevice = () => {
     // const data = useLoaderData() as { device: IDevice };
@@ -69,7 +76,7 @@ const DeviceForm = (props: DeviceFormProps) => {
   const requierdMsg = "This is a required field";
 
   const schema = Yup.object({
-    uid: Yup.string().required(requierdMsg),
+    uid: Yup.number().required(requierdMsg),
     vendor: Yup.string().required(requierdMsg),
     gateway: Yup.string().required(requierdMsg),
   });
@@ -84,19 +91,25 @@ const DeviceForm = (props: DeviceFormProps) => {
 
   const navigate = useNavigate();
 
-  // const createDevice = async (values: IDevice) => {
-  //   const httpAdapter = HttpAdapter.getInstance();
-  //   await httpAdapter
-  //     .post("devices", values, {}, token)
-  //     .then((response) => {
-  //       notify("The device was created succesfully!!", "success");
-  //       navigate("/gateways");
-  //     })
-  //     .catch((error) => {
-  //       const errorMessage = getAxiosError(error);
-  //       notify(errorMessage, "error");
-  //     });
-  // };
+  const createDevice = async (values: InitialValues) => {
+    const data = {
+      uid: values.uid,
+      status: values.online ? "online" : "offline",
+      vendor: values.vendor,
+      dateCreated: new Date(),
+    };
+    const httpAdapter = HttpAdapter.getInstance();
+    await httpAdapter
+      .post("devices/" + values.gateway, data, {}, token)
+      .then((response) => {
+        notify("The device was created succesfully!!", "success");
+        navigate("/gateways/" + values.gateway);
+      })
+      .catch((error) => {
+        const errorMessage = getAxiosError(error);
+        notify(errorMessage, "error");
+      });
+  };
 
   // const editUser = async (values: IGateway) => {
   //   const { serialNumber, name, ipAddress } = values;
@@ -134,7 +147,7 @@ const DeviceForm = (props: DeviceFormProps) => {
           if (props.isEdit) {
             // await editUser(values as IGateway);
           } else {
-            // await createUser(values);
+            await createDevice(values);
           }
 
           setIsLoading(false);
@@ -146,7 +159,7 @@ const DeviceForm = (props: DeviceFormProps) => {
               <div className="mr-0 lg:mr-6">
                 <label
                   htmlFor="uid"
-                  className="font-normal text-gray-600 dark:text-white"
+                  className="font-normal text-gray-600 "
                 >
                   UID
                 </label>
@@ -166,7 +179,7 @@ const DeviceForm = (props: DeviceFormProps) => {
               <div className="mr-0 lg:mr-6">
                 <label
                   htmlFor="vendor"
-                  className="font-normal text-gray-600 dark:text-white"
+                  className="font-normal text-gray-600 "
                 >
                   Vendor
                 </label>
@@ -185,7 +198,7 @@ const DeviceForm = (props: DeviceFormProps) => {
               <div className="mr-0 lg:mr-6">
                 <label
                   htmlFor="gateway"
-                  className="font-normal text-gray-600 dark:text-white"
+                  className="font-normal text-gray-600 "
                 >
                   Gateway
                 </label>
@@ -205,7 +218,7 @@ const DeviceForm = (props: DeviceFormProps) => {
               <div className="mr-0 lg:mr-6">
                 <label
                   htmlFor="online"
-                  className="font-normal text-gray-600 dark:text-white"
+                  className="font-normal text-gray-600 "
                 >
                   Status
                 </label>
