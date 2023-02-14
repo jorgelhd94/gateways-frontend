@@ -6,9 +6,8 @@ import GatewaysPage from "../pages/Gateways/GatewaysPage";
 import DevicesPage from "../pages/Devices/DevicesPage";
 import DashboardLayout from "../components/templates/DashboardLayout/DashboardLayout";
 import { getAllGateways, getGatewayById } from "./data/gateways.data";
-import CreateGatewayPage from "../pages/Gateways/CreatePage";
 import HttpAdapter from "../utils/HttpAdapter";
-import EditGatewayPage from "../pages/Gateways/EditPage";
+import CreateEditGatewayPage from "../pages/Gateways/CreateEditGatewayPage";
 
 const httpAdapter = HttpAdapter.getInstance();
 
@@ -51,11 +50,11 @@ const router = createBrowserRouter([
           },
           {
             path: "create",
-            element: <CreateGatewayPage />,
+            element: <CreateEditGatewayPage />,
           },
           {
             path: ":gatewayId/edit",
-            element: <EditGatewayPage />,
+            element: <CreateEditGatewayPage isEdit />,
             loader: async ({ params }) => {
               if (params.gatewayId) {
                 const gateway = await getGatewayById(params.gatewayId);

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { faServer } from "@fortawesome/free-solid-svg-icons";
 import GatewayForm from "../../components/molecules/Gateways/GatewayForm/GatewayForm";
 
-const CreatePage = () => {
+const CreateEditGatewayPage = (props: { isEdit?: boolean }) => {
   return (
     <>
       <div className="mx-4 mb-2">
@@ -15,11 +15,11 @@ const CreatePage = () => {
           </IconButton>
         </Link>
         <CardContainer>
-          <GatewayForm />
+          <GatewayForm isEdit />
         </CardContainer>
       </div>
     </>
   );
 };
 
-export default CreatePage;
+export default CreateEditGatewayPage;
