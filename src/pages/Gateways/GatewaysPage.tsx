@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import IconButton from "../../components/atoms/buttons/IconButton/IconButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import CardContainer from "../../components/atoms/CardContainer/CardContainer";
@@ -13,6 +13,8 @@ const GatewaysPage = () => {
           New Gateway
         </IconButton>
       </Link>
+
+      <Outlet/>
 
       <CardContainer>
         <div className="text-xl font-light text-gray-600 sm:text-2xl">

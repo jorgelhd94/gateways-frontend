@@ -6,6 +6,7 @@ import GatewaysPage from "../pages/Gateways/GatewaysPage";
 import DevicesPage from "../pages/Devices/DevicesPage";
 import DashboardLayout from "../components/templates/DashboardLayout/DashboardLayout";
 import { getAllGateways } from "./data/gateways.data";
+import CreateGatewayPage from "../pages/Gateways/CreatePage";
 
 const router = createBrowserRouter([
   {
@@ -31,12 +32,21 @@ const router = createBrowserRouter([
         element: <IndexPage />,
       },
       {
-        path: "/gateways",
-        element: <GatewaysPage />,
-        loader: async () => {
-          const gateways = await getAllGateways();
-          return { gateways };
-        },
+        path: "gateways",
+        children: [
+          {
+            index: true,
+            element: <GatewaysPage />,
+            loader: async () => {
+              const gateways = await getAllGateways();
+              return { gateways };
+            },
+          },
+          {
+            path: "create",
+            element: <CreateGatewayPage />,
+          },
+        ],
       },
       {
         path: "/devices",
