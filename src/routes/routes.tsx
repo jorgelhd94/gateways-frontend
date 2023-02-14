@@ -9,7 +9,8 @@ import { getAllGateways, getGatewayById } from "./data/gateways.data";
 import HttpAdapter from "../utils/HttpAdapter";
 import CreateEditGatewayPage from "../pages/Gateways/CreateEditGatewayPage";
 import DetailsGatewayPage from "../pages/Gateways/DetailsGatewayPage";
-import { getAllDevices } from "./data/devices.data";
+import { getAllDevices, getDeviceByGateway } from "./data/devices.data";
+import DetailsDevicePage from "../pages/Devices/DetailsDevicePage";
 
 const httpAdapter = HttpAdapter.getInstance();
 
@@ -87,6 +88,20 @@ const router = createBrowserRouter([
             loader: async () => {
               const devices = await getAllDevices();
               return { devices };
+            },
+          },
+          {
+            path: ":gatewayId/:deviceId",
+            element: <DetailsDevicePage />,
+            loader: async ({ params }) => {
+              if (params.gatewayId && params.deviceId) {
+                const device = await getDeviceByGateway(
+                  params.gatewayId,
+                  params.deviceId
+                );
+                return { device };
+              }
+              return {};
             },
           },
         ],

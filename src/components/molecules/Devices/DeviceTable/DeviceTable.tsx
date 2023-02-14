@@ -55,7 +55,12 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
 
   const getGatewayObject = (): IDevice[] => {
     if (props.gateway) {
-      return props.gateway.devices;
+      return props.gateway.devices.map((device) => {
+        return {
+          ...device,
+          gatewayId: props.gateway?._id,
+        };
+      });
     }
     const { devices } = useLoaderData() as { devices: IDevice[] };
     return devices;
@@ -82,7 +87,9 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
           )}
           <TDElement>
             <span className="flex gap-2">
-              <IconButton type="info" icon={faEye} showIcon={true} />
+              <Link to={`/devices/${data.gatewayId}/${data._id}`}>
+                <IconButton type="info" icon={faEye} showIcon={true} />
+              </Link>
               <IconButton type="success" icon={faPencil} showIcon={true} />
               <IconButton
                 type="danger"
