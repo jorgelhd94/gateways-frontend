@@ -15,7 +15,7 @@ const CreateEditGatewayPage = (props: { isEdit?: boolean }) => {
           </IconButton>
         </Link>
         <CardContainer>
-          <GatewayForm isEdit />
+          <GatewayForm isEdit={props.isEdit} />
         </CardContainer>
       </div>
     </>

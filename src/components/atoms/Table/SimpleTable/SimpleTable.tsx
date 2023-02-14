@@ -12,9 +12,9 @@ const SimpleTable = (props: SimpleTableProps) => {
   });
 
   return (
-    <div className="container mx-auto max-w-3xl">
+    <div className="container mx-auto max-w-full">
       <div className="py-4">
-        <div className="-mx-4 sm:-mx-8 px-2 sm:px-8 py-2 overflow-x-auto">
+        <div className="p-2 overflow-x-auto">
           <div className="inline-block min-w-full overflow-hidden">
             <table className="min-w-full leading-normal">
               <thead>
