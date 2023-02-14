@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ProfileButton from "../../../atoms/buttons/ProfileButton/ProfileButton";
+import ProfileButton from "../../../atoms/Buttons/ProfileButton/ProfileButton";
 import ProfileMenu from "../ProfileMenu/ProfileMenu";
 
 const ProfileComponent = () => {

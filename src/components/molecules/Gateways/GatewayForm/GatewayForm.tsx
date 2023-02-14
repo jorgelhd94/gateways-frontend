@@ -6,7 +6,7 @@ import {
   errorInputClass,
   successInputClass,
 } from "../../../../utils/inputStyle";
-import SubmitButton from "../../../atoms/buttons/SubmitButton/SubmitButton";
+import SubmitButton from "../../../atoms/Buttons/SubmitButton/SubmitButton";
 import { useSelector } from "react-redux";
 import { userSelectState } from "../../../../store/reducers/user.reducer";
 import { INewGateway } from "../../../../interfaces/INewGateway";
@@ -75,8 +75,8 @@ const GatewayForm = (props: GatewayFormProps) => {
   };
 
   const editUser = async (values: IGateway) => {
-    const httpAdapter = HttpAdapter.getInstance();
     const { serialNumber, name, ipAddress } = values;
+    const httpAdapter = HttpAdapter.getInstance();
     await httpAdapter
       .patch(
         "gateways/" + (gateway as IGateway)._id,

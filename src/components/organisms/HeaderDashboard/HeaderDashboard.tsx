@@ -1,5 +1,5 @@
 import React from "react";
-import ButtonBurger from "../../atoms/buttons/ButtonBurger/ButtonBurger";
+import ButtonBurger from "../../atoms/Buttons/ButtonBurger/ButtonBurger";
 import GithubLink from "../../atoms/Links/GithubLink/GithubLink";
 import ProfileMenu from "../../molecules/Profile/ProfileMenu/ProfileMenu";
 import ProfileComponent from "../../molecules/Profile/ProfileComponent/ProfileComponent";

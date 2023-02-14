@@ -1,11 +1,11 @@
 import React from "react";
 import CardContainer from "../../components/atoms/CardContainer/CardContainer";
-import IconButton from "../../components/atoms/buttons/IconButton/IconButton";
+import IconButton from "../../components/atoms/Buttons/IconButton/IconButton";
 import { Link } from "react-router-dom";
 import { faServer } from "@fortawesome/free-solid-svg-icons";
 import GatewayForm from "../../components/molecules/Gateways/GatewayForm/GatewayForm";
 
-const EditPage = () => {
+const CreatePage = () => {
   return (
     <>
       <div className="mx-4 mb-2">
@@ -15,11 +15,11 @@ const EditPage = () => {
           </IconButton>
         </Link>
         <CardContainer>
-          <GatewayForm isEdit/>
+          <GatewayForm />
         </CardContainer>
       </div>
     </>
   );
 };
 
-export default EditPage;
+export default CreatePage;

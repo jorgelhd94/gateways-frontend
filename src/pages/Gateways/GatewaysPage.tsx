@@ -1,6 +1,6 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
-import IconButton from "../../components/atoms/buttons/IconButton/IconButton";
+import { Link } from "react-router-dom";
+import IconButton from "../../components/atoms/Buttons/IconButton/IconButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import CardContainer from "../../components/atoms/CardContainer/CardContainer";
 import GatewayTable from "../../components/molecules/Gateways/GatewayTable/GatewayTable";

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import IconButton from "../components/atoms/buttons/IconButton/IconButton";
+import IconButton from "../components/atoms/Buttons/IconButton/IconButton";
 import { faLaptop, faServer } from "@fortawesome/free-solid-svg-icons";
 import WelcomeImg from "../assets/welcome.svg";
 

@@ -8,7 +8,7 @@ import {
   errorInputClass,
   successInputClass,
 } from "../../../../utils/inputStyle";
-import AuthButton from "../../../atoms/buttons/AuthButton/AuthButton";
+import AuthButton from "../../../atoms/Buttons/AuthButton/AuthButton";
 import HttpAdapter from "../../../../utils/HttpAdapter";
 import { useNavigate } from "react-router-dom";
 import { notify } from "../../../../utils/notifications/notify";

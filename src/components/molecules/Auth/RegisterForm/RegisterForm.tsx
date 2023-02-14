@@ -9,7 +9,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import IconInput from "../../../atoms/Input/IconInput/IconInput";
-import AuthButton from "../../../atoms/buttons/AuthButton/AuthButton";
+import AuthButton from "../../../atoms/Buttons/AuthButton/AuthButton";
 import {
   errorInputClass,
   successInputClass,

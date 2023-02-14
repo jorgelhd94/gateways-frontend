@@ -11,7 +11,7 @@ import { IGateway } from "../../../../interfaces/IGateway";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import TDElement from "../../../atoms/Table/TDElement/TDElement";
 import BadgeElement from "../../../atoms/BadgeElement/BadgeElement";
-import IconButton from "../../../atoms/buttons/IconButton/IconButton";
+import IconButton from "../../../atoms/Buttons/IconButton/IconButton";
 import { faEye, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import SimpleTable from "../../../atoms/Table/SimpleTable/SimpleTable";
 import { Link } from "react-router-dom";
