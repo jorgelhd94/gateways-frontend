@@ -5,6 +5,7 @@ import ErrorPage from "../pages/ErrorPage";
 import GatewaysPage from "../pages/Gateways/GatewaysPage";
 import DevicesPage from "../pages/Devices/DevicesPage";
 import DashboardLayout from "../components/templates/DashboardLayout/DashboardLayout";
+import { getAllGateways } from "./data/gateways.data";
 
 const router = createBrowserRouter([
   {
@@ -26,8 +27,12 @@ const router = createBrowserRouter([
     },
     children: [
       {
-        path: "/",
+        index: true,
         element: <IndexPage />,
+        loader: async () => {
+          const gateways = await getAllGateways();
+          return { gateways };
+        },
       },
       {
         path: "/gateways",
