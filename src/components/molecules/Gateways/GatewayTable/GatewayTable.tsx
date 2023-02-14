@@ -8,20 +8,56 @@ import { notify } from "../../../../utils/notifications/notify";
 import { getAxiosError } from "../../../../utils/axios/getAxiosError";
 import HttpAdapter from "../../../../utils/HttpAdapter";
 import { IGateway } from "../../../../interfaces/IGateway";
+import { useLoaderData } from "react-router-dom";
+import TDElement from "../../../atoms/Table/TDElement/TDElement";
+import BadgeElement from "../../../atoms/BadgeElement/BadgeElement";
+import IconButton from "../../../atoms/buttons/IconButton/IconButton";
+import { faEye, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import SimpleTable from "../../../atoms/Table/SimpleTable/SimpleTable";
 
 const GatewayTable = () => {
   const headerList = ["Serial", "Name", "IPv4", "Devices", ""];
   const [fetchingData, setFetchingData] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [contentList, setContentList] = useState<IGateway[] | []>([]);
 
-  return (
-    <div>
-      {/* <EmptyList /> */}
-      {/* <FetchError /> */}
-      {/* <TableSkeleton/> */}
-    </div>
-  );
+  const { gateways } = useLoaderData() as {gateways: IGateway[]};
+
+  const transformData = () => {
+    return gateways.map((data, row) => {
+      return (
+        <tr key={row}>
+          <TDElement>{data.serialNumber}</TDElement>
+          <TDElement>{data.name}</TDElement>
+          <TDElement>{data.ipAddress}</TDElement>
+          <TDElement>
+            <BadgeElement>{data.devices.length}</BadgeElement>
+          </TDElement>
+          <TDElement>
+            <span className="flex gap-2">
+              <IconButton type="info" icon={faEye} showIcon={true} />
+              <IconButton type="success" icon={faPencil} showIcon={true} />
+              <IconButton type="danger" icon={faTrash} showIcon={true} />
+            </span>
+          </TDElement>
+        </tr>
+      );
+    });
+  };
+
+  const tableComponent = () => {
+    let component;
+
+    component =
+      gateways.length === 0 ? (
+        <EmptyList />
+      ) : (
+        <SimpleTable headerList={headerList} contentList={transformData()} />
+      );
+
+    return component;
+  };
+
+  return <div>{tableComponent()}</div>;
 };
 
 export default GatewayTable;

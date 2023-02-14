@@ -29,14 +29,14 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <IndexPage />,
-        loader: async () => {
-          const gateways = await getAllGateways();
-          return { gateways };
-        },
       },
       {
         path: "/gateways",
         element: <GatewaysPage />,
+        loader: async () => {
+          const gateways = await getAllGateways();
+          return { gateways };
+        },
       },
       {
         path: "/devices",
