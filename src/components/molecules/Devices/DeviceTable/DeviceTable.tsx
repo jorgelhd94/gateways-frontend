@@ -8,7 +8,7 @@ import { notify } from "../../../../utils/notifications/notify";
 import { getAxiosError } from "../../../../utils/axios/getAxiosError";
 import HttpAdapter from "../../../../utils/HttpAdapter";
 import { IGateway } from "../../../../interfaces/IGateway";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import TDElement from "../../../atoms/Table/TDElement/TDElement";
 import BadgeElement from "../../../atoms/BadgeElement/BadgeElement";
 import IconButton from "../../../atoms/Buttons/IconButton/IconButton";
@@ -33,39 +33,23 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
     userSelectState(state.userReducer)
   );
   const navigate = useNavigate();
+  const location = useLocation();
 
-  //   const deleteGateway = async (_id: string) => {
-  //     if (window.confirm("Are you sure?")) {
-  //       const httpAdapter = HttpAdapter.getInstance();
-  //       await httpAdapter
-  //         .delete("gateways/" + _id, {}, token)
-  //         .then(() => {
-  //           notify("The gateway was removed correctly", "success");
-  //           navigate("/gateways");
-  //         })
-  //         .catch((error: any) => {
-  //           const message = getAxiosError(error);
-  //           notify(message, "error");
-  //         });
-  //     }
-  //   };
-
-  // const deleteDevice = async (id) => {
-  //     if (window.confirm('Are you sure?')) {
-  //       setFetchingData(true);
-  //       const removeDevice = httpsCallable(functions, 'device-delete');
-  //       await removeDevice({ id })
-  //         .then(() => {
-  //           getData();
-  //           toast.success('The device was removed correctly');
-  //         })
-  //         .catch((error) => {
-  //           const message = error.message;
-  //           toast.error(message);
-  //         });
-  //       setFetchingData(false);
-  //     }
-  //   };
+  const deleteGateway = async (_id: string) => {
+    if (window.confirm("Are you sure?")) {
+      const httpAdapter = HttpAdapter.getInstance();
+      await httpAdapter
+        .delete(`devices/${props.gateway?._id}/${_id}`, {}, token)
+        .then(() => {
+          notify("The device was removed correctly", "success");
+          navigate(location.pathname);
+        })
+        .catch((error: any) => {
+          const message = getAxiosError(error);
+          notify(message, "error");
+        });
+    }
+  };
 
   const transformData = () => {
     return props.gateway?.devices.map((data, row) => {
@@ -88,7 +72,12 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
             <span className="flex gap-2">
               <IconButton type="info" icon={faEye} showIcon={true} />
               <IconButton type="success" icon={faPencil} showIcon={true} />
-              <IconButton type="danger" icon={faTrash} showIcon={true} />
+              <IconButton
+                type="danger"
+                icon={faTrash}
+                showIcon={true}
+                click={() => deleteGateway(data._id)}
+              />
             </span>
           </TDElement>
         </tr>
