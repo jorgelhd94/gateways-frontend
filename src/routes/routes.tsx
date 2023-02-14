@@ -8,6 +8,7 @@ import DashboardLayout from "../components/templates/DashboardLayout/DashboardLa
 import { getAllGateways, getGatewayById } from "./data/gateways.data";
 import HttpAdapter from "../utils/HttpAdapter";
 import CreateEditGatewayPage from "../pages/Gateways/CreateEditGatewayPage";
+import DetailsGatewayPage from "../pages/Gateways/DetailsGatewayPage";
 
 const httpAdapter = HttpAdapter.getInstance();
 
@@ -53,6 +54,17 @@ const router = createBrowserRouter([
             element: <CreateEditGatewayPage />,
           },
           {
+            path: ":gatewayId",
+            element: <DetailsGatewayPage />,
+            loader: async ({ params }) => {
+              if (params.gatewayId) {
+                const gateway = await getGatewayById(params.gatewayId);
+                return { gateway };
+              }
+              return {};
+            },
+          },
+          {
             path: ":gatewayId/edit",
             element: <CreateEditGatewayPage isEdit />,
             loader: async ({ params }) => {
@@ -60,7 +72,6 @@ const router = createBrowserRouter([
                 const gateway = await getGatewayById(params.gatewayId);
                 return { gateway };
               }
-
               return {};
             },
           },

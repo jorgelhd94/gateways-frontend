@@ -52,7 +52,9 @@ const GatewayTable = () => {
           </TDElement>
           <TDElement>
             <span className="flex gap-2">
-              <IconButton type="info" icon={faEye} showIcon={true} />
+              <Link to={`/gateways/${data._id}`}>
+                <IconButton type="info" icon={faEye} showIcon={true} />
+              </Link>
               <Link to={`/gateways/${data._id}/edit`}>
                 <IconButton type="success" icon={faPencil} showIcon={true} />
               </Link>
