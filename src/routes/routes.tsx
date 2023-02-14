@@ -5,9 +5,10 @@ import ErrorPage from "../pages/ErrorPage";
 import GatewaysPage from "../pages/Gateways/GatewaysPage";
 import DevicesPage from "../pages/Devices/DevicesPage";
 import DashboardLayout from "../components/templates/DashboardLayout/DashboardLayout";
-import { getAllGateways } from "./data/gateways.data";
+import { getAllGateways, getGatewayById } from "./data/gateways.data";
 import CreateGatewayPage from "../pages/Gateways/CreatePage";
 import HttpAdapter from "../utils/HttpAdapter";
+import EditGatewayPage from "../pages/Gateways/EditPage";
 
 const httpAdapter = HttpAdapter.getInstance();
 
@@ -51,6 +52,18 @@ const router = createBrowserRouter([
           {
             path: "create",
             element: <CreateGatewayPage />,
+          },
+          {
+            path: ":gatewayId/edit",
+            element: <EditGatewayPage />,
+            loader: async ({ params }) => {
+              if (params.gatewayId) {
+                const gateway = await getGatewayById(params.gatewayId);
+                return { gateway };
+              }
+
+              return {};
+            },
           },
         ],
       },

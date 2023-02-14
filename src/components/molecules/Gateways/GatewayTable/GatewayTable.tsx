@@ -14,6 +14,7 @@ import BadgeElement from "../../../atoms/BadgeElement/BadgeElement";
 import IconButton from "../../../atoms/buttons/IconButton/IconButton";
 import { faEye, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import SimpleTable from "../../../atoms/Table/SimpleTable/SimpleTable";
+import { Link } from "react-router-dom";
 
 const GatewayTable = () => {
   const headerList = ["Serial", "Name", "IPv4", "Devices", ""];
@@ -52,7 +53,9 @@ const GatewayTable = () => {
           <TDElement>
             <span className="flex gap-2">
               <IconButton type="info" icon={faEye} showIcon={true} />
-              <IconButton type="success" icon={faPencil} showIcon={true} />
+              <Link to={`/gateways/${data._id}/edit`}>
+                <IconButton type="success" icon={faPencil} showIcon={true} />
+              </Link>
               <IconButton
                 type="danger"
                 icon={faTrash}

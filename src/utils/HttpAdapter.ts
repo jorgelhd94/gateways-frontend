@@ -23,7 +23,7 @@ class HttpAdapter {
   }
 
   public sendRequest(
-    method: "get" | "post" | "put" | "delete",
+    method: "get" | "post" | "patch" | "delete",
     url: string,
     data?: any,
     config?: any,
@@ -41,8 +41,8 @@ class HttpAdapter {
     return this.sendRequest("post", url, data, config, token);
   }
 
-  public put(url: string, data?: any, config?: any, token?: string) {
-    return this.sendRequest("put", url, data, config, token);
+  public patch(url: string, data?: any, config?: any, token?: string) {
+    return this.sendRequest("patch", url, data, config, token);
   }
 
   public delete(url: string, config?: any, token?: string) {

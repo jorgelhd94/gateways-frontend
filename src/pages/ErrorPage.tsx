@@ -8,10 +8,8 @@ const ErrorPage = () => {
   return (
     <div className="w-screen h-screen">
       <FetchError>
-        <h1>Oops!!</h1>
-        <h1>
-          Error {error.status} - {error.statusText}
-        </h1>
+        Oops!!
+        <br /> {error.status && "Error " + error.status + " - " + error.statusText}
         <p>Sorry, an unexpected error has occurred.</p>
         <p>
           <i>{error.data}</i>

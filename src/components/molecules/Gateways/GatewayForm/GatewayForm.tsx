@@ -12,10 +12,31 @@ import { userSelectState } from "../../../../store/reducers/user.reducer";
 import { INewGateway } from "../../../../interfaces/INewGateway";
 import HttpAdapter from "../../../../utils/HttpAdapter";
 import { notify } from "../../../../utils/notifications/notify";
-import { useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { getAxiosError } from "../../../../utils/axios/getAxiosError";
+import { IGateway } from "../../../../interfaces/IGateway";
 
-const GatewayForm = () => {
+type GatewayFormProps = {
+  isEdit?: boolean;
+};
+
+const GatewayForm = (props: GatewayFormProps) => {
+  const getGateway = () => {
+    const data = useLoaderData() as { gateway: IGateway };
+
+    if (data) {
+      return data.gateway;
+    }
+
+    return {
+      serialNumber: "",
+      name: "",
+      ipAddress: "",
+    };
+  };
+
+  const gateway = getGateway();
+
   const [isLoading, setIsLoading] = useState(false);
   const requierdMsg = "This is a required field";
   const ipv4Validation =
@@ -53,20 +74,44 @@ const GatewayForm = () => {
       });
   };
 
+  const editUser = async (values: IGateway) => {
+    const httpAdapter = HttpAdapter.getInstance();
+    const { serialNumber, name, ipAddress } = values;
+    await httpAdapter
+      .patch(
+        "gateways/" + (gateway as IGateway)._id,
+        { serialNumber, name, ipAddress },
+        {},
+        token
+      )
+      .then((response) => {
+        notify("The gateway was modified succesfully!!", "success");
+        navigate("/gateways");
+      })
+      .catch((error) => {
+        const errorMessage = getAxiosError(error);
+        notify(errorMessage, "error");
+      });
+  };
+
   return (
     <div>
       <div className="mb-6 text-xl font-light text-gray-600 sm:text-2xl ">
-        Create a new Gateway
+        {props.isEdit ? "Edit" : "Create a new "} Gateway
       </div>
 
       <Formik
-        initialValues={{ serialNumber: "", name: "", ipAddress: "" }}
+        initialValues={{ ...gateway }}
         validationSchema={schema}
         onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(false);
           setIsLoading(true);
 
-          await createUser(values);
+          if (props.isEdit) {
+            await editUser(values as IGateway);
+          } else {
+            await createUser(values);
+          }
 
           setIsLoading(false);
         }}
@@ -113,7 +158,10 @@ const GatewayForm = () => {
               </div>
 
               <div className="mr-0 lg:mr-6">
-                <label htmlFor="ipAddress" className="font-normal text-gray-600 ">
+                <label
+                  htmlFor="ipAddress"
+                  className="font-normal text-gray-600 "
+                >
                   IP v4
                 </label>
                 <DefaultInput error={getError("ipAddress")}>
