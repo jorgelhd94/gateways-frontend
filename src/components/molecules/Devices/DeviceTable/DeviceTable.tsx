@@ -21,11 +21,12 @@ import {
 import SimpleTable from "../../../atoms/Table/SimpleTable/SimpleTable";
 import { Link } from "react-router-dom";
 import formatDate from "../../../../utils/formatDate";
+import { IDevice } from "../../../../interfaces/IDevice";
 
 const DeviceTable = (props: { gateway?: IGateway }) => {
   let headerList = ["UID", "Vendor", "Status", "Created", "Gateway", ""];
 
-  if (props) {
+  if (props.gateway) {
     headerList = ["UID", "Vendor", "Status", "Created", ""];
   }
 
@@ -35,11 +36,12 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const deleteGateway = async (_id: string) => {
+  const deleteGateway = async (device: IDevice) => {
     if (window.confirm("Are you sure?")) {
+      const gatewayId = props.gateway ? props.gateway._id : device.gatewayId;
       const httpAdapter = HttpAdapter.getInstance();
       await httpAdapter
-        .delete(`devices/${props.gateway?._id}/${_id}`, {}, token)
+        .delete(`devices/${gatewayId}/${device._id}`, {}, token)
         .then(() => {
           notify("The device was removed correctly", "success");
           navigate(location.pathname);
@@ -51,8 +53,16 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
     }
   };
 
+  const getGatewayObject = (): IDevice[] => {
+    if (props.gateway) {
+      return props.gateway.devices;
+    }
+    const { devices } = useLoaderData() as { devices: IDevice[] };
+    return devices;
+  };
+
   const transformData = () => {
-    return props.gateway?.devices.map((data, row) => {
+    return getGatewayObject().map((data, row) => {
       return (
         <tr key={row}>
           <TDElement>{data.uid}</TDElement>
@@ -65,7 +75,9 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
           <TDElement>{formatDate(data.dateCreated)}</TDElement>
           {!props.gateway && (
             <TDElement>
-              <IconButton type="primary" icon={faServer} showIcon={true} />
+              <Link to={`/gateways/${data.gatewayId}`}>
+                <IconButton type="primary" icon={faServer} showIcon={true} />
+              </Link>
             </TDElement>
           )}
           <TDElement>
@@ -76,7 +88,7 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
                 type="danger"
                 icon={faTrash}
                 showIcon={true}
-                click={() => deleteGateway(data._id)}
+                click={() => deleteGateway(data)}
               />
             </span>
           </TDElement>

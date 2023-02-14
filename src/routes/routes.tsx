@@ -9,6 +9,7 @@ import { getAllGateways, getGatewayById } from "./data/gateways.data";
 import HttpAdapter from "../utils/HttpAdapter";
 import CreateEditGatewayPage from "../pages/Gateways/CreateEditGatewayPage";
 import DetailsGatewayPage from "../pages/Gateways/DetailsGatewayPage";
+import { getAllDevices } from "./data/devices.data";
 
 const httpAdapter = HttpAdapter.getInstance();
 
@@ -79,7 +80,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/devices",
-        element: <DevicesPage />,
+        children: [
+          {
+            index: true,
+            element: <DevicesPage />,
+            loader: async () => {
+              const devices = await getAllDevices();
+              return { devices };
+            },
+          },
+        ],
       },
     ],
   },
