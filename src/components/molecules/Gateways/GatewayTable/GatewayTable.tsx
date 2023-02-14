@@ -8,7 +8,7 @@ import { notify } from "../../../../utils/notifications/notify";
 import { getAxiosError } from "../../../../utils/axios/getAxiosError";
 import HttpAdapter from "../../../../utils/HttpAdapter";
 import { IGateway } from "../../../../interfaces/IGateway";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import TDElement from "../../../atoms/Table/TDElement/TDElement";
 import BadgeElement from "../../../atoms/BadgeElement/BadgeElement";
 import IconButton from "../../../atoms/buttons/IconButton/IconButton";
@@ -17,10 +17,27 @@ import SimpleTable from "../../../atoms/Table/SimpleTable/SimpleTable";
 
 const GatewayTable = () => {
   const headerList = ["Serial", "Name", "IPv4", "Devices", ""];
-  const [fetchingData, setFetchingData] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const { gateways } = useLoaderData() as { gateways: IGateway[] };
+  const { token } = useSelector((state: any) =>
+    userSelectState(state.userReducer)
+  );
+  const navigate = useNavigate();
 
-  const { gateways } = useLoaderData() as {gateways: IGateway[]};
+  const deleteGateway = async (_id: string) => {
+    if (window.confirm("Are you sure?")) {
+      const httpAdapter = HttpAdapter.getInstance();
+      await httpAdapter
+        .delete("gateways/" + _id, {}, token)
+        .then(() => {
+          notify("The gateway was removed correctly", "success");
+          navigate("/gateways");
+        })
+        .catch((error: any) => {
+          const message = getAxiosError(error);
+          notify(message, "error");
+        });
+    }
+  };
 
   const transformData = () => {
     return gateways.map((data, row) => {
@@ -36,7 +53,12 @@ const GatewayTable = () => {
             <span className="flex gap-2">
               <IconButton type="info" icon={faEye} showIcon={true} />
               <IconButton type="success" icon={faPencil} showIcon={true} />
-              <IconButton type="danger" icon={faTrash} showIcon={true} />
+              <IconButton
+                type="danger"
+                icon={faTrash}
+                showIcon={true}
+                click={() => deleteGateway(data._id)}
+              />
             </span>
           </TDElement>
         </tr>

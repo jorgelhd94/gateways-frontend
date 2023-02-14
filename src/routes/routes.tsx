@@ -7,6 +7,9 @@ import DevicesPage from "../pages/Devices/DevicesPage";
 import DashboardLayout from "../components/templates/DashboardLayout/DashboardLayout";
 import { getAllGateways } from "./data/gateways.data";
 import CreateGatewayPage from "../pages/Gateways/CreatePage";
+import HttpAdapter from "../utils/HttpAdapter";
+
+const httpAdapter = HttpAdapter.getInstance();
 
 const router = createBrowserRouter([
   {
@@ -17,10 +20,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <DashboardLayout />,
     errorElement: <ErrorPage />,
-    loader: () => {
+    loader: async () => {
       const token = localStorage.getItem("user_token");
-
-      if (!token) {
+      if (token) {
+        await httpAdapter.get("auth/access", {}, token).catch(() => {
+          throw redirect("auth");
+        });
+      } else {
         throw redirect("auth");
       }
 
