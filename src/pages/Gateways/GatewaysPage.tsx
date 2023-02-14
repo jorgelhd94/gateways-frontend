@@ -13,9 +13,6 @@ const GatewaysPage = () => {
           New Gateway
         </IconButton>
       </Link>
-
-      <Outlet/>
-
       <CardContainer>
         <div className="text-xl font-light text-gray-600 sm:text-2xl">
           Manage Gateways
