@@ -60,7 +60,7 @@ const GatewayForm = (props: GatewayFormProps) => {
 
   const navigate = useNavigate();
 
-  const createUser = async (values: INewGateway) => {
+  const createGateway = async (values: INewGateway) => {
     const httpAdapter = HttpAdapter.getInstance();
     await httpAdapter
       .post("gateways", values, {}, token)
@@ -74,7 +74,7 @@ const GatewayForm = (props: GatewayFormProps) => {
       });
   };
 
-  const editUser = async (values: IGateway) => {
+  const editGateway = async (values: IGateway) => {
     const { serialNumber, name, ipAddress } = values;
     const httpAdapter = HttpAdapter.getInstance();
     await httpAdapter
@@ -108,9 +108,9 @@ const GatewayForm = (props: GatewayFormProps) => {
           setIsLoading(true);
 
           if (props.isEdit) {
-            await editUser(values as IGateway);
+            await editGateway(values as IGateway);
           } else {
-            await createUser(values);
+            await createGateway(values);
           }
 
           setIsLoading(false);
