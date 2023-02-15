@@ -18,7 +18,6 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { getAxiosError } from "../../../../utils/axios/getAxiosError";
 import { IGateway } from "../../../../interfaces/IGateway";
 import { IDevice } from "../../../../interfaces/IDevice";
-import SelectGatewaysOptions from "../SelectGatewaysOptions/SelectGatewaysOptions";
 
 type DeviceFormProps = {
   isEdit?: boolean;
@@ -40,21 +39,23 @@ const DeviceForm = (props: DeviceFormProps) => {
     //   return { ...data.device, gateway: "" };
     // }
 
+    const { gatewayId } = useLoaderData() as { gatewayId: string };
+
     return {
       uid: "",
       vendor: "",
-      gateway: "",
+      gateway: gatewayId || "",
       online: false,
     };
   };
-
-  const device = getDevice();
 
   const [isLoading, setIsLoading] = useState(false);
   const requierdMsg = "This is a required field";
 
   const schema = Yup.object({
-    uid: Yup.number().positive("Must be a positive number").required(requierdMsg),
+    uid: Yup.number()
+      .positive("Must be a positive number")
+      .required(requierdMsg),
     vendor: Yup.string().required(requierdMsg),
     gateway: Yup.string().required(requierdMsg),
   });
@@ -109,6 +110,28 @@ const DeviceForm = (props: DeviceFormProps) => {
   //     });
   // };
 
+  const [listOptions, setListOptions] = useState([
+    <option key={0} disabled>
+      No elements
+    </option>,
+  ]);
+
+  const createSelect = () => {
+    if (props.listGateways.length > 0) {
+      const list = props.listGateways.map((value) => {
+        return (
+          <option key={value._id} value={value._id}>
+            {value.name} - {value.serialNumber}
+          </option>
+        );
+      });
+      const empty = <option key="empty" value=""></option>;
+      setListOptions([empty, ...list]);
+    }
+  };
+
+  useEffect(() => createSelect(), []);
+
   return (
     <div>
       <div className="mb-6 text-xl font-light text-gray-600 sm:text-2xl ">
@@ -116,7 +139,7 @@ const DeviceForm = (props: DeviceFormProps) => {
       </div>
 
       <Formik
-        initialValues={{ ...device }}
+        initialValues={{ ...getDevice() }}
         validationSchema={schema}
         onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(false);
@@ -125,7 +148,7 @@ const DeviceForm = (props: DeviceFormProps) => {
           if (props.isEdit) {
             // await editUser(values as IGateway);
           } else {
-            await createDevice(values);
+            await createDevice(values as InitialValues);
           }
 
           setIsLoading(false);
@@ -179,7 +202,7 @@ const DeviceForm = (props: DeviceFormProps) => {
                       errors.gateway ? selectErrorClass : selectSuccessClass
                     }
                   >
-                    <SelectGatewaysOptions listGateways={props.listGateways} />
+                    {listOptions}
                   </Field>
                 </DefaultInput>
               </div>

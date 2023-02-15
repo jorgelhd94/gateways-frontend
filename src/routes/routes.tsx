@@ -100,6 +100,19 @@ const router = createBrowserRouter([
             },
           },
           {
+            path: 'create/:gatewayId',
+            element: <CreateDevicePage />,
+            loader: async ({ params }) => {
+              const gateways = await getAllGateways();
+
+              if (params.gatewayId) {
+                return { gateways, gatewayId: params.gatewayId };
+              }
+
+              return { gateways };
+            },
+          },
+          {
             path: ':gatewayId/:deviceId',
             element: <DetailsDevicePage />,
             loader: async ({ params }) => {

@@ -24,11 +24,9 @@ const DetailsDevicePage = () => {
               Details Device
             </div>
             <Link to={"/gateways/" + device.gatewayId}>
-              <a>
-                <IconButton type="primary" icon={faServer} showIcon={true}>
-                  Gateway
-                </IconButton>
-              </a>
+              <IconButton type="primary" icon={faServer} showIcon={true}>
+                Gateway
+              </IconButton>
             </Link>
           </div>
           <div className="flex flex-col justify-start">
