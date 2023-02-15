@@ -1,19 +1,24 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import * as Yup from 'yup';
-import DefaultInput from '../../../atoms/Input/DefaultInput/DefaultInput';
-import { errorInputClass, selectErrorClass, selectSuccessClass, successInputClass } from '../../../../utils/inputStyle';
-import SubmitButton from '../../../atoms/Buttons/SubmitButton/SubmitButton';
-import { useSelector } from 'react-redux';
-import { userSelectState } from '../../../../store/reducers/user.reducer';
-import { INewGateway } from '../../../../interfaces/INewGateway';
-import HttpAdapter from '../../../../utils/HttpAdapter';
-import { notify } from '../../../../utils/notifications/notify';
-import { useLoaderData, useNavigate } from 'react-router-dom';
-import { getAxiosError } from '../../../../utils/axios/getAxiosError';
-import { IGateway } from '../../../../interfaces/IGateway';
-import { IDevice } from '../../../../interfaces/IDevice';
-import SelectGatewaysOptions from '../SelectGatewaysOptions/SelectGatewaysOptions';
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import * as Yup from "yup";
+import DefaultInput from "../../../atoms/Input/DefaultInput/DefaultInput";
+import {
+  errorInputClass,
+  selectErrorClass,
+  selectSuccessClass,
+  successInputClass,
+} from "../../../../utils/inputStyle";
+import SubmitButton from "../../../atoms/Buttons/SubmitButton/SubmitButton";
+import { useSelector } from "react-redux";
+import { userSelectState } from "../../../../store/reducers/user.reducer";
+import { INewGateway } from "../../../../interfaces/INewGateway";
+import HttpAdapter from "../../../../utils/HttpAdapter";
+import { notify } from "../../../../utils/notifications/notify";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { getAxiosError } from "../../../../utils/axios/getAxiosError";
+import { IGateway } from "../../../../interfaces/IGateway";
+import { IDevice } from "../../../../interfaces/IDevice";
+import SelectGatewaysOptions from "../SelectGatewaysOptions/SelectGatewaysOptions";
 
 type DeviceFormProps = {
   isEdit?: boolean;
@@ -36,9 +41,9 @@ const DeviceForm = (props: DeviceFormProps) => {
     // }
 
     return {
-      uid: '',
-      vendor: '',
-      gateway: '',
+      uid: "",
+      vendor: "",
+      gateway: "",
       online: false,
     };
   };
@@ -46,10 +51,10 @@ const DeviceForm = (props: DeviceFormProps) => {
   const device = getDevice();
 
   const [isLoading, setIsLoading] = useState(false);
-  const requierdMsg = 'This is a required field';
+  const requierdMsg = "This is a required field";
 
   const schema = Yup.object({
-    uid: Yup.number().required(requierdMsg),
+    uid: Yup.number().positive("Must be a positive number").required(requierdMsg),
     vendor: Yup.string().required(requierdMsg),
     gateway: Yup.string().required(requierdMsg),
   });
@@ -58,27 +63,29 @@ const DeviceForm = (props: DeviceFormProps) => {
     return <ErrorMessage name={inputName} />;
   };
 
-  const { token } = useSelector((state: any) => userSelectState(state.userReducer));
+  const { token } = useSelector((state: any) =>
+    userSelectState(state.userReducer)
+  );
 
   const navigate = useNavigate();
 
   const createDevice = async (values: InitialValues) => {
     const data = {
       uid: values.uid,
-      status: values.online ? 'online' : 'offline',
+      status: values.online ? "online" : "offline",
       vendor: values.vendor,
       dateCreated: new Date(),
     };
     const httpAdapter = HttpAdapter.getInstance();
     await httpAdapter
-      .post('devices/' + values.gateway, data, {}, token)
+      .post("devices/" + values.gateway, data, {}, token)
       .then((response) => {
-        notify('The device was created succesfully!!', 'success');
-        navigate('/gateways/' + values.gateway);
+        notify("The device was created succesfully!!", "success");
+        navigate("/gateways/" + values.gateway);
       })
       .catch((error) => {
         const errorMessage = getAxiosError(error);
-        notify(errorMessage, 'error');
+        notify(errorMessage, "error");
       });
   };
 
@@ -105,7 +112,7 @@ const DeviceForm = (props: DeviceFormProps) => {
   return (
     <div>
       <div className="mb-6 text-xl font-light text-gray-600 sm:text-2xl ">
-        {props.isEdit ? 'Edit' : 'Create a new '} Device
+        {props.isEdit ? "Edit" : "Create a new "} Device
       </div>
 
       <Formik
@@ -131,7 +138,10 @@ const DeviceForm = (props: DeviceFormProps) => {
                 <label htmlFor="uid" className="font-normal text-gray-600 ">
                   UID
                 </label>
-                <DefaultInput error={getError('uid')} isValidating={isValidating}>
+                <DefaultInput
+                  error={getError("uid")}
+                  isValidating={isValidating}
+                >
                   <Field
                     name="uid"
                     type="text"
@@ -145,11 +155,13 @@ const DeviceForm = (props: DeviceFormProps) => {
                 <label htmlFor="vendor" className="font-normal text-gray-600 ">
                   Vendor
                 </label>
-                <DefaultInput error={getError('vendor')}>
+                <DefaultInput error={getError("vendor")}>
                   <Field
                     name="vendor"
                     type="text"
-                    className={errors.vendor ? errorInputClass : successInputClass}
+                    className={
+                      errors.vendor ? errorInputClass : successInputClass
+                    }
                     placeholder="Vendor"
                   />
                 </DefaultInput>
@@ -159,8 +171,14 @@ const DeviceForm = (props: DeviceFormProps) => {
                 <label htmlFor="gateway" className="font-normal text-gray-600 ">
                   Gateway
                 </label>
-                <DefaultInput error={getError('gateway')}>
-                  <Field as="select" name="gateway" className={errors.gateway ? selectErrorClass : selectSuccessClass}>
+                <DefaultInput error={getError("gateway")}>
+                  <Field
+                    as="select"
+                    name="gateway"
+                    className={
+                      errors.gateway ? selectErrorClass : selectSuccessClass
+                    }
+                  >
                     <SelectGatewaysOptions listGateways={props.listGateways} />
                   </Field>
                 </DefaultInput>
@@ -174,7 +192,7 @@ const DeviceForm = (props: DeviceFormProps) => {
                 <div className="mt-2">
                   <div
                     className="relative inline-block w-10 align-middle select-none mr-2"
-                    onClick={() => setFieldValue('online', !values.online)}
+                    onClick={() => setFieldValue("online", !values.online)}
                   >
                     <Field
                       type="checkbox"
@@ -187,7 +205,9 @@ const DeviceForm = (props: DeviceFormProps) => {
                       className="block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
                     ></label>
                   </div>
-                  <span className="text-gray-400 font-medium">{values.online ? 'Online' : 'Offline'}</span>
+                  <span className="text-gray-400 font-medium">
+                    {values.online ? "Online" : "Offline"}
+                  </span>
                 </div>
               </div>
             </div>
