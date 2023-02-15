@@ -38,10 +38,9 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
 
   const deleteGateway = async (device: IDevice) => {
     if (window.confirm("Are you sure?")) {
-      const gatewayId = props.gateway ? props.gateway._id : device.gatewayId;
       const httpAdapter = HttpAdapter.getInstance();
       await httpAdapter
-        .delete(`devices/${gatewayId}/${device._id}`, {}, token)
+        .delete(`devices/${device._id}`, {}, token)
         .then(() => {
           notify("The device was removed correctly", "success");
           navigate(location.pathname);

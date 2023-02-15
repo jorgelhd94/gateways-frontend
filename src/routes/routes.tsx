@@ -9,7 +9,7 @@ import { getAllGateways, getGatewayById } from "./data/gateways.data";
 import HttpAdapter from "../utils/HttpAdapter";
 import CreateEditGatewayPage from "../pages/Gateways/CreateEditGatewayPage";
 import DetailsGatewayPage from "../pages/Gateways/DetailsGatewayPage";
-import { getAllDevices, getDeviceByGateway } from "./data/devices.data";
+import { getAllDevices, getDeviceById } from "./data/devices.data";
 import DetailsDevicePage from "../pages/Devices/DetailsDevicePage";
 import CreateDevicePage from "../pages/Devices/CreateDevicePage";
 import EditDevicePage from "../pages/Devices/EditDevicePage";
@@ -119,7 +119,7 @@ const router = createBrowserRouter([
             loader: async ({ params }) => {
               if (params.gatewayId && params.deviceId) {
                 const gateways = await getAllGateways();
-                const device = await getDeviceByGateway(
+                const device = await getDeviceById(
                   params.gatewayId,
                   params.deviceId
                 );
@@ -134,7 +134,7 @@ const router = createBrowserRouter([
             element: <DetailsDevicePage />,
             loader: async ({ params }) => {
               if (params.gatewayId && params.deviceId) {
-                const device = await getDeviceByGateway(
+                const device = await getDeviceById(
                   params.gatewayId,
                   params.deviceId
                 );

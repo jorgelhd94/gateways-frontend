@@ -23,12 +23,12 @@ const getAllDevices = async () => {
   return [];
 };
 
-const getDeviceByGateway = async (gatewayId: string, deviceId: string) => {
+const getDeviceById = async (gatewayId: string, deviceId: string) => {
   if (token) {
     const result = await httpAdapter
       .get(`devices/${gatewayId}/${deviceId}`, {}, token)
       .then((response) => {
-        return { ...response.data, gatewayId };
+        return { ...response.data };
       })
       .catch((error) => {
         const message = getAxiosError(error);
@@ -41,4 +41,4 @@ const getDeviceByGateway = async (gatewayId: string, deviceId: string) => {
   return [];
 };
 
-export { getAllDevices, getDeviceByGateway };
+export { getAllDevices, getDeviceById };
