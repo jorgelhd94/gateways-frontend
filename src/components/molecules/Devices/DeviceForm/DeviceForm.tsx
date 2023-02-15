@@ -11,7 +11,6 @@ import {
 import SubmitButton from "../../../atoms/Buttons/SubmitButton/SubmitButton";
 import { useSelector } from "react-redux";
 import { userSelectState } from "../../../../store/reducers/user.reducer";
-import { INewGateway } from "../../../../interfaces/INewGateway";
 import HttpAdapter from "../../../../utils/HttpAdapter";
 import { notify } from "../../../../utils/notifications/notify";
 import { useLoaderData, useNavigate } from "react-router-dom";
@@ -32,12 +31,21 @@ type InitialValues = {
 };
 
 const DeviceForm = (props: DeviceFormProps) => {
-  const getDevice = () => {
-    // const data = useLoaderData() as { device: IDevice };
+  const loaderData = useLoaderData() as {
+    device: IDevice;
+    gatewayId: string;
+  };
 
-    // if (data) {
-    //   return { ...data.device, gateway: "" };
-    // }
+  const getDevice = () => {
+    if (props.isEdit) {
+      if (loaderData.device && loaderData.gatewayId) {
+        return {
+          ...loaderData.device,
+          gateway: loaderData.gatewayId,
+          online: loaderData.device.status === "online",
+        };
+      }
+    }
 
     const { gatewayId } = useLoaderData() as { gatewayId: string };
 
@@ -80,7 +88,7 @@ const DeviceForm = (props: DeviceFormProps) => {
     const httpAdapter = HttpAdapter.getInstance();
     await httpAdapter
       .post("devices/" + values.gateway, data, {}, token)
-      .then((response) => {
+      .then(() => {
         notify("The device was created succesfully!!", "success");
         navigate("/gateways/" + values.gateway);
       })
@@ -90,25 +98,34 @@ const DeviceForm = (props: DeviceFormProps) => {
       });
   };
 
-  // const editUser = async (values: IGateway) => {
-  //   const { serialNumber, name, ipAddress } = values;
-  //   const httpAdapter = HttpAdapter.getInstance();
-  //   await httpAdapter
-  //     .patch(
-  //       "gateways/" + (gateway as IGateway)._id,
-  //       { serialNumber, name, ipAddress },
-  //       {},
-  //       token
-  //     )
-  //     .then((response) => {
-  //       notify("The gateway was modified succesfully!!", "success");
-  //       navigate("/gateways");
-  //     })
-  //     .catch((error) => {
-  //       const errorMessage = getAxiosError(error);
-  //       notify(errorMessage, "error");
-  //     });
-  // };
+  const editDevice = async (values: InitialValues) => {
+    const { uid, vendor, gateway } = values;
+
+    const modifiedDevice = {
+      uid,
+      vendor,
+      status: values.online ? "online" : "offline",
+      dateCreated: loaderData.device.dateCreated,
+      gatewayId: values.gateway,
+    };
+
+    const httpAdapter = HttpAdapter.getInstance();
+    await httpAdapter
+      .patch(
+        `devices/${loaderData.gatewayId}/${loaderData.device._id}`,
+        modifiedDevice,
+        {},
+        token
+      )
+      .then(() => {
+        notify("The device was modified succesfully!!", "success");
+        navigate("/gateways/" + gateway);
+      })
+      .catch((error) => {
+        const errorMessage = getAxiosError(error);
+        notify(errorMessage, "error");
+      });
+  };
 
   const [listOptions, setListOptions] = useState([
     <option key={0} disabled>
@@ -146,7 +163,7 @@ const DeviceForm = (props: DeviceFormProps) => {
           setIsLoading(true);
 
           if (props.isEdit) {
-            // await editUser(values as IGateway);
+            await editDevice(values as InitialValues);
           } else {
             await createDevice(values as InitialValues);
           }

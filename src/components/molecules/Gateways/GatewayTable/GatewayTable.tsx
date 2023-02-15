@@ -10,7 +10,6 @@ import HttpAdapter from "../../../../utils/HttpAdapter";
 import { IGateway } from "../../../../interfaces/IGateway";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import TDElement from "../../../atoms/Table/TDElement/TDElement";
-import BadgeElement from "../../../atoms/BadgeElement/BadgeElement";
 import IconButton from "../../../atoms/Buttons/IconButton/IconButton";
 import { faEye, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import SimpleTable from "../../../atoms/Table/SimpleTable/SimpleTable";
@@ -47,9 +46,6 @@ const GatewayTable = () => {
           <TDElement>{data.serialNumber}</TDElement>
           <TDElement>{data.name}</TDElement>
           <TDElement>{data.ipAddress}</TDElement>
-          <TDElement>
-            <BadgeElement>{data.devices.length}</BadgeElement>
-          </TDElement>
           <TDElement>
             <span className="flex gap-2">
               <Link to={`/gateways/${data._id}`}>

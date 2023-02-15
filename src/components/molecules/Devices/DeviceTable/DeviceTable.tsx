@@ -53,7 +53,7 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
     }
   };
 
-  const getGatewayObject = (): IDevice[] => {
+  const getDevices = (): IDevice[] => {
     if (props.gateway) {
       return props.gateway.devices.map((device) => {
         return {
@@ -63,11 +63,12 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
       });
     }
     const { devices } = useLoaderData() as { devices: IDevice[] };
+
     return devices;
   };
 
   const transformData = () => {
-    return getGatewayObject().map((data, row) => {
+    return getDevices().map((data, row) => {
       return (
         <tr key={row}>
           <TDElement>{data.uid}</TDElement>
@@ -90,7 +91,9 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
               <Link to={`/devices/${data.gatewayId}/${data._id}`}>
                 <IconButton type="info" icon={faEye} showIcon={true} />
               </Link>
-              <IconButton type="success" icon={faPencil} showIcon={true} />
+              <Link to={`/devices/${data.gatewayId}/edit/${data._id}`}>
+                <IconButton type="success" icon={faPencil} showIcon={true} />
+              </Link>
               <IconButton
                 type="danger"
                 icon={faTrash}
@@ -108,7 +111,7 @@ const DeviceTable = (props: { gateway?: IGateway }) => {
     let component;
 
     component =
-      props.gateway?.devices.length === 0 ? (
+      getDevices().length === 0 ? (
         <EmptyList />
       ) : (
         <SimpleTable headerList={headerList} contentList={transformData()} />

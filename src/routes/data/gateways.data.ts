@@ -17,6 +17,8 @@ const getAllGateways = async () => {
         notify(message, "error");
       });
 
+    console.log(result);
+
     return result;
   }
 

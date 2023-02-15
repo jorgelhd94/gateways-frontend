@@ -1,37 +1,38 @@
-import { createBrowserRouter, redirect } from 'react-router-dom';
-import IndexPage from '../pages/IndexPage';
-import AuthPage from '../pages/AuthPage';
-import ErrorPage from '../pages/ErrorPage';
-import GatewaysPage from '../pages/Gateways/GatewaysPage';
-import DevicesPage from '../pages/Devices/DevicesPage';
-import DashboardLayout from '../components/templates/DashboardLayout/DashboardLayout';
-import { getAllGateways, getGatewayById } from './data/gateways.data';
-import HttpAdapter from '../utils/HttpAdapter';
-import CreateEditGatewayPage from '../pages/Gateways/CreateEditGatewayPage';
-import DetailsGatewayPage from '../pages/Gateways/DetailsGatewayPage';
-import { getAllDevices, getDeviceByGateway } from './data/devices.data';
-import DetailsDevicePage from '../pages/Devices/DetailsDevicePage';
-import CreateDevicePage from '../pages/Devices/CreateDevicePage';
+import { createBrowserRouter, redirect } from "react-router-dom";
+import IndexPage from "../pages/IndexPage";
+import AuthPage from "../pages/AuthPage";
+import ErrorPage from "../pages/ErrorPage";
+import GatewaysPage from "../pages/Gateways/GatewaysPage";
+import DevicesPage from "../pages/Devices/DevicesPage";
+import DashboardLayout from "../components/templates/DashboardLayout/DashboardLayout";
+import { getAllGateways, getGatewayById } from "./data/gateways.data";
+import HttpAdapter from "../utils/HttpAdapter";
+import CreateEditGatewayPage from "../pages/Gateways/CreateEditGatewayPage";
+import DetailsGatewayPage from "../pages/Gateways/DetailsGatewayPage";
+import { getAllDevices, getDeviceByGateway } from "./data/devices.data";
+import DetailsDevicePage from "../pages/Devices/DetailsDevicePage";
+import CreateDevicePage from "../pages/Devices/CreateDevicePage";
+import EditDevicePage from "../pages/Devices/EditDevicePage";
 
 const httpAdapter = HttpAdapter.getInstance();
 
 const router = createBrowserRouter([
   {
-    path: '/auth',
+    path: "/auth",
     element: <AuthPage />,
   },
   {
-    path: '/',
+    path: "/",
     element: <DashboardLayout />,
     errorElement: <ErrorPage />,
     loader: async () => {
-      const token = localStorage.getItem('user_token');
+      const token = localStorage.getItem("user_token");
       if (token) {
-        await httpAdapter.get('auth/access', {}, token).catch(() => {
-          throw redirect('auth');
+        await httpAdapter.get("auth/access", {}, token).catch(() => {
+          throw redirect("auth");
         });
       } else {
-        throw redirect('auth');
+        throw redirect("auth");
       }
 
       return {};
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
         element: <IndexPage />,
       },
       {
-        path: 'gateways',
+        path: "gateways",
         children: [
           {
             index: true,
@@ -53,11 +54,11 @@ const router = createBrowserRouter([
             },
           },
           {
-            path: 'create',
+            path: "create",
             element: <CreateEditGatewayPage />,
           },
           {
-            path: ':gatewayId',
+            path: ":gatewayId",
             element: <DetailsGatewayPage />,
             loader: async ({ params }) => {
               if (params.gatewayId) {
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
             },
           },
           {
-            path: ':gatewayId/edit',
+            path: ":gatewayId/edit",
             element: <CreateEditGatewayPage isEdit />,
             loader: async ({ params }) => {
               if (params.gatewayId) {
@@ -81,7 +82,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: '/devices',
+        path: "/devices",
         children: [
           {
             index: true,
@@ -92,7 +93,7 @@ const router = createBrowserRouter([
             },
           },
           {
-            path: 'create',
+            path: "create",
             element: <CreateDevicePage />,
             loader: async () => {
               const gateways = await getAllGateways();
@@ -100,7 +101,7 @@ const router = createBrowserRouter([
             },
           },
           {
-            path: 'create/:gatewayId',
+            path: "create/:gatewayId",
             element: <CreateDevicePage />,
             loader: async ({ params }) => {
               const gateways = await getAllGateways();
@@ -113,11 +114,30 @@ const router = createBrowserRouter([
             },
           },
           {
-            path: ':gatewayId/:deviceId',
+            path: ":gatewayId/edit/:deviceId",
+            element: <EditDevicePage />,
+            loader: async ({ params }) => {
+              if (params.gatewayId && params.deviceId) {
+                const gateways = await getAllGateways();
+                const device = await getDeviceByGateway(
+                  params.gatewayId,
+                  params.deviceId
+                );
+                return { gateways, device, gatewayId: params.gatewayId };
+              }
+
+              return {};
+            },
+          },
+          {
+            path: ":gatewayId/:deviceId",
             element: <DetailsDevicePage />,
             loader: async ({ params }) => {
               if (params.gatewayId && params.deviceId) {
-                const device = await getDeviceByGateway(params.gatewayId, params.deviceId);
+                const device = await getDeviceByGateway(
+                  params.gatewayId,
+                  params.deviceId
+                );
                 return { device };
               }
               return {};
