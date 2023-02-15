@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import WelcomeImg from "../assets/bg-login.jpg";
 import LoginForm from "../components/molecules/Auth/LoginForm/LoginForm";
 import RegisterForm from "../components/molecules/Auth/RegisterForm/RegisterForm";
+import { useNavigation } from "react-router-dom";
+import LoadingScreen from "../components/atoms/Preloaders/LoadingScreen/LoadingScreen";
 
 const AuthPage = () => {
   const [showLogin, setShowLogin] = useState(true);
@@ -9,7 +11,11 @@ const AuthPage = () => {
     setShowLogin(!showLogin);
   };
 
-  return (
+  const navigation = useNavigation();
+
+  return navigation.state === "loading" ? (
+    <LoadingScreen />
+  ) : (
     <div className="absolute w-screen h-screen flex">
       <div className="hidden lg:block w-5/12 h-full overflow-hidden">
         <img
@@ -34,7 +40,11 @@ const AuthPage = () => {
           </div>
 
           <div className="py-8">
-            {showLogin ? <LoginForm /> : <RegisterForm toggleLogin={toggleLogin} />}
+            {showLogin ? (
+              <LoginForm />
+            ) : (
+              <RegisterForm toggleLogin={toggleLogin} />
+            )}
           </div>
 
           <p className="text-sm my-12 text-center">
