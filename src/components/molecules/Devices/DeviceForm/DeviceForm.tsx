@@ -174,7 +174,6 @@ const DeviceForm = (props: DeviceFormProps) => {
                 <div className="mt-2">
                   <div
                     className="relative inline-block w-10 align-middle select-none mr-2"
-                    // eslint-disable-next-line prettier/prettier
                     onClick={() => setFieldValue('online', !values.online)}
                   >
                     <Field
