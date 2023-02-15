@@ -3,9 +3,9 @@ import { getAxiosError } from "../../utils/axios/getAxiosError";
 import { notify } from "../../utils/notifications/notify";
 
 const httpAdapter = HttpAdapter.getInstance();
-const token = localStorage.getItem("user_token");
 
 const getAllGateways = async () => {
+  const token = localStorage.getItem("user_token");
   if (token) {
     const result = await httpAdapter
       .get("gateways", {}, token)
@@ -25,6 +25,7 @@ const getAllGateways = async () => {
   return [];
 };
 const getGatewayById = async (gatewayId: string) => {
+  const token = localStorage.getItem("user_token");
   if (token) {
     const result = await httpAdapter
       .get("gateways/" + gatewayId, {}, token)
