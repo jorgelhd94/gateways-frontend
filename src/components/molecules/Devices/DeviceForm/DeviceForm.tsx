@@ -18,6 +18,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { getAxiosError } from "../../../../utils/axios/getAxiosError";
 import { IGateway } from "../../../../interfaces/IGateway";
 import { IDevice } from "../../../../interfaces/IDevice";
+import SelectGatewaysOptions from "../SelectGatewaysOptions/SelectGatewaysOptions";
 
 type DeviceFormProps = {
   isEdit?: boolean;
@@ -48,29 +49,6 @@ const DeviceForm = (props: DeviceFormProps) => {
   };
 
   const device = getDevice();
-
-  /* Create select options */
-  const [listOptions, setListOptions] = useState([
-    <option key={0} disabled>
-      No elements
-    </option>,
-  ]);
-
-  const createSelect = () => {
-    if (props.listGateways.length > 0) {
-      const list = props.listGateways.map((value) => {
-        return (
-          <option key={value._id} value={value._id}>
-            {value.name} - {value.serialNumber}
-          </option>
-        );
-      });
-      const empty = <option key="empty" value=""></option>;
-      setListOptions([empty, ...list]);
-    }
-  };
-
-  useEffect(() => createSelect(), []);
 
   const [isLoading, setIsLoading] = useState(false);
   const requierdMsg = "This is a required field";
@@ -157,10 +135,7 @@ const DeviceForm = (props: DeviceFormProps) => {
           <Form>
             <div className="flex flex-wrap flex-col lg:flex-row justify-start w-full">
               <div className="mr-0 lg:mr-6">
-                <label
-                  htmlFor="uid"
-                  className="font-normal text-gray-600 "
-                >
+                <label htmlFor="uid" className="font-normal text-gray-600 ">
                   UID
                 </label>
                 <DefaultInput
@@ -177,10 +152,7 @@ const DeviceForm = (props: DeviceFormProps) => {
               </div>
 
               <div className="mr-0 lg:mr-6">
-                <label
-                  htmlFor="vendor"
-                  className="font-normal text-gray-600 "
-                >
+                <label htmlFor="vendor" className="font-normal text-gray-600 ">
                   Vendor
                 </label>
                 <DefaultInput error={getError("vendor")}>
@@ -196,10 +168,7 @@ const DeviceForm = (props: DeviceFormProps) => {
               </div>
 
               <div className="mr-0 lg:mr-6">
-                <label
-                  htmlFor="gateway"
-                  className="font-normal text-gray-600 "
-                >
+                <label htmlFor="gateway" className="font-normal text-gray-600 ">
                   Gateway
                 </label>
                 <DefaultInput error={getError("gateway")}>
@@ -210,16 +179,13 @@ const DeviceForm = (props: DeviceFormProps) => {
                       errors.gateway ? selectErrorClass : selectSuccessClass
                     }
                   >
-                    {listOptions}
+                    <SelectGatewaysOptions listGateways={props.listGateways} />
                   </Field>
                 </DefaultInput>
               </div>
 
               <div className="mr-0 lg:mr-6">
-                <label
-                  htmlFor="online"
-                  className="font-normal text-gray-600 "
-                >
+                <label htmlFor="online" className="font-normal text-gray-600 ">
                   Status
                 </label>
 
