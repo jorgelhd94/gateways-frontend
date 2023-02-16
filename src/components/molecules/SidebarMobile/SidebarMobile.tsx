@@ -16,7 +16,7 @@ type SidebarMobileProps = {
 const SidebarMobile = (props: SidebarMobileProps) => {
   const defaultStyle =
     "h-screen lg:hidden ml-0 shadow-lg absolute lg:relative transition delay-500 w-80 z-50 ";
-  const hidden = !props.open ? "-ml-96" : "w-screen";
+  const hidden = !props.open ? "hidden" : "w-screen";
   const style = defaultStyle + " " + hidden;
 
 
