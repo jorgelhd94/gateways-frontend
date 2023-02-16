@@ -1,5 +1,4 @@
-import { MouseEventHandler, useEffect, useRef } from "react";
-import { useOutsideClick } from "../../../utils/clickOutside";
+import { MouseEventHandler, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClose,
@@ -8,7 +7,6 @@ import {
   faServer,
 } from "@fortawesome/free-solid-svg-icons";
 import NavSidebarLink from "../../atoms/Links/NavSidebarLink/NavSidebarLink";
-import { useNavigate, useNavigation } from "react-router-dom";
 
 type SidebarMobileProps = {
   toggleSidebar: MouseEventHandler;
@@ -21,10 +19,9 @@ const SidebarMobile = (props: SidebarMobileProps) => {
   const hidden = !props.open ? "-ml-96" : "w-screen";
   const style = defaultStyle + " " + hidden;
 
-  const sidebarRef = useRef(null);
 
   return (
-    <div ref={sidebarRef} className={style}>
+    <div className={style}>
       <div className="bg-white h-full">
         <div className="flex items-start justify-between pt-6 mx-8">
           <p className="font-bold text-xl">G.M.S</p>
