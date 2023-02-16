@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/free-regular-svg-icons";
 import { NavLink, useMatch } from "react-router-dom";
@@ -7,6 +7,7 @@ type NavSidebarLinkProps = {
   name: string;
   href: string;
   icon: IconDefinition;
+  onClick?: MouseEventHandler;
 };
 
 const NavSidebarLink = (props: NavSidebarLinkProps) => {
@@ -28,6 +29,7 @@ const NavSidebarLink = (props: NavSidebarLinkProps) => {
       className={({ isActive }) => {
         return isActive ? activeClass : normalClass;
       }}
+      onClick={props.onClick}
     >
       <span className="text-left">
         <FontAwesomeIcon icon={props.icon} />
