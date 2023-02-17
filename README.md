@@ -39,7 +39,7 @@ yarn install
 
 4. Edit the environment variables defined in `.env`
 
-This is the api backend url
+- This is the api backend url
 ```
 VITE_SERVER_URL=http://localhost:3000/api/v1
 ```
