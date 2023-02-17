@@ -1,5 +1,7 @@
 <p align="center">
-![logo](https://user-images.githubusercontent.com/53158723/219778620-342cd986-dd01-484e-9dd3-696c641d193c.png)
+  <a href="https://reactjs.org/" target="blank">
+    <img src="https://user-images.githubusercontent.com/53158723/219779157-ee7af038-a56c-408e-af9e-ab6982be2de8.png" width="200" alt="React Logo" />
+  </a>
 </p>
 
 # Gateways Management System (GMS) Frontend
