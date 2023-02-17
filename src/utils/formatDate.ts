@@ -1,7 +1,8 @@
 const formatDate = (date: Date): string => {
-  let day: string = String(date.getDate());
-  let month: string = String(date.getMonth());
-  const year: number = date.getFullYear();
+  const dateObj = new Date(date);
+  let day: string = String(dateObj.getDate());
+  let month: string = String(dateObj.getMonth() + 1);
+  const year: number = dateObj.getFullYear();
 
   if (month.length < 2) {
     month = "0" + month;
