@@ -1,12 +1,12 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="React Logo" /></a>
+![logo](https://user-images.githubusercontent.com/53158723/219778620-342cd986-dd01-484e-9dd3-696c641d193c.png)
 </p>
 
 # Gateways Management System (GMS) Frontend
 
 The GMS frontend is a web application built with React, TypeScript, and Vite. It allows users to interact with the GMS backend API to manage gateways and their associated peripheral devices.
 
-The application is currently temporarily deployed at https://gateways-frontend-production.up.railway.app/ until March 1st.
+The application is currently temporarily deployed at https://gateways-backend-production.up.railway.app/ until March 1st.
 
 ## Getting Started
 
