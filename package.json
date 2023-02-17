@@ -1,8 +1,11 @@
 {
   "name": "gateways-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Gateways Managment System (GMS) Frontend. This App offer a simple way to managing gateways that control multiple peripheral devices.",
+  "author": "Jorge Luis Hernández Dueñas",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
